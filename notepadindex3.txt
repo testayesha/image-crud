@@ -1,0 +1,47 @@
+<?php
+ class image_con extends CI_controller{ 
+
+    public function __construct() 
+	{
+      parent::__construct();
+	  $this->load->model('image_model' ,'model'); 
+	}
+    public function index()
+	{
+		$this->load->view('index');
+	} 
+	public function addData() 
+	{  
+		$config= [
+			'upload_path' =>'./assets/upload/.' ,
+			'allowed_types' =>'jpg|jpeg|jpng'
+				];
+        $this->load->library('upload' ,$config); 
+		$this->form_validation->set_rules('name', 'Name' , 'trim|required');
+		if($this->form_validation->run() &&  $this->upload->do_upload('image'));
+		
+         $name=$this->input->post('name'); 
+         $image=$this->upload->data();
+		 $image=$image['file_name'];
+		 $data= array (
+			'name'=>$name , 
+		    'image'=>$image
+		 );
+         $this->load->model('image_model');
+		 if($this->model->addData($data)){
+			echo "success";
+		   } else {
+				echo "failed";
+			  }
+			  $this->model->addData($data);
+		};
+	   	else { 
+		} 
+		$data['image_error']=$this->upload->display_errors('<p>', '</p>');
+		$this->load->view('index' ,$data);
+		  }
+			  
+	
+ 
+
+?>
