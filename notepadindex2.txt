@@ -1,0 +1,13 @@
+<?php  
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class image_model extends CI_Model {
+
+    public function addData($data)
+
+ {
+  return $user= $this->db->insert('user1' ,$data); 
+
+}
+} 
+?> 
